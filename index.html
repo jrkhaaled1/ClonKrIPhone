@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<link rel="manifest" href="/ClonKrIPhone/manifest.json"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/ClonKrIPhone/icons/icon-32.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/ClonKrIPhone/icons/icon-192.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/ClonKrIPhone/icons/apple-touch-icon-180.png"/>
+<meta name="theme-color" content="#08090b"/>
+<meta name="application-name" content="ClonKR"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="ClonKR"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="format-detection" content="telephone=no"/>
+<title>ClonKR — Insurance Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script async defer src="https://accounts.google.com/gsi/client"></script>
+<script>if(window['pdfjs-dist/build/pdf']){window.pdfjsLib=window['pdfjs-dist/build/pdf'];} if(window.pdfjsLib){window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:#f0f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;}
+input,textarea,select,button{font-family:inherit;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:#f0f4f8;}
+::-webkit-scrollbar-thumb{background:#c0cdd8;border-radius:3px;}
+.pill{font-size:10px;border-radius:5px;padding:2px 5px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;cursor:pointer;position:relative;}
+.pill:hover .tt{display:block;}
+.tt{display:none;position:absolute;left:0;top:100%;z-index:100;background:#0a1628;color:#fff;font-size:11px;padding:5px 9px;border-radius:7px;white-space:normal;min-width:160px;max-width:240px;line-height:1.4;box-shadow:0 4px 12px rgba(0,0,0,.25);}
+@keyframes modalIn{from{opacity:0;transform:translateY(18px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes modalBgIn{from{opacity:0;}to{opacity:1;}}
+@keyframes successPop{0%{transform:scale(.4);opacity:0;}60%{transform:scale(1.15);opacity:1;}100%{transform:scale(1);opacity:1;}}
+@keyframes checkDraw{from{stroke-dashoffset:48;}to{stroke-dashoffset:0;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmer{0%{background-position:-200px 0;}100%{background-position:200px 0;}}
+@keyframes spinSlow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes slideUpFade{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes recPulse{0%{box-shadow:0 0 0 0 rgba(224,57,46,.55);}70%{box-shadow:0 0 0 9px rgba(224,57,46,0);}100%{box-shadow:0 0 0 0 rgba(224,57,46,0);}}
+@keyframes cardFlipIn{from{opacity:0;transform:perspective(900px) rotateX(-12deg) translateY(-8px) scale(.96);}to{opacity:1;transform:perspective(900px) rotateX(0) translateY(0) scale(1);}}
+@keyframes logoMenuIn{from{opacity:0;transform:translateY(-6px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes islandMenuIn{0%{opacity:0;transform:translateX(-50%) translateY(-8px) scale(.93) rotate(0deg);}55%{opacity:1;}100%{opacity:1;transform:translateX(-62%) translateY(0) scale(1) rotate(-1.6deg);}}
+.modal-bg-anim{animation:modalBgIn .22s ease;}
+.modal-box-anim{animation:modalIn .32s cubic-bezier(.2,.9,.3,1.1);}
+.success-anim{animation:successPop .5s cubic-bezier(.3,1.4,.4,1);}
+.field-anim{animation:slideUp .35s ease both;}
+@keyframes checklistFadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.checklist-fade-in{animation:checklistFadeIn .25s ease both;}
+@media (prefers-reduced-motion: reduce){.checklist-fade-in{animation:none;}}
+
+/* ClonKr premium header / Checklist v1 refresh */
+.clonkr-topbar{position:sticky;overflow:visible!important;isolation:isolate}.clonkr-topbar:after{content:"";position:absolute;left:8%;right:8%;bottom:4px;height:1px;background:linear-gradient(90deg,transparent,#c9ced3 18%,#eef0f2 50%,#c9ced3 82%,transparent);opacity:.75;z-index:-1}.vinyl-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}.vinyl{position:absolute;width:92px;height:92px;border-radius:50%;opacity:.22;background:radial-gradient(circle at 50% 50%,#f7f8f9 0 3px,#aeb4ba 3px 6px,transparent 6px 14px),repeating-radial-gradient(circle at 50% 50%,#f8f9fa 0 1px,#9da4aa 1px 2px,#dfe2e5 2px 3px),linear-gradient(135deg,#f5f6f7,#8f969d 48%,#e8eaec 72%,#8b9299);box-shadow:inset 0 0 0 1px #fff8,0 10px 30px #69707822;filter:saturate(.35)}.vinyl:before{content:"";position:absolute;inset:12px;border-radius:50%;border:1px solid #ffffff88;box-shadow:inset 0 0 0 1px #70777d44}.vinyl:after{content:"";position:absolute;inset:22px;border-radius:50%;border:1px dashed #ffffff55}.vinyl span{position:absolute;width:13px;height:13px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:#c7ccd0;border:2px solid #858c92;box-shadow:0 0 0 2px #eef0f1}.vinyl i{position:absolute;width:3px;height:3px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:#666d73}.vinyl-a{left:6%;top:-36px;transform:rotate(-16deg)}.vinyl-b{left:30%;top:-54px;width:68px;height:68px;transform:rotate(21deg);opacity:.16}.vinyl-c{right:22%;top:-45px;width:76px;height:76px;transform:rotate(-28deg);opacity:.18}.vinyl-d{right:5%;top:-30px;transform:rotate(17deg);opacity:.2}
+.dynamic-island-wrap{z-index:20;will-change:min-width}.dynamic-island{height:40px;min-width:124px;padding:0 5px;border-radius:999px;background:rgba(18,22,27,.94);border:1px solid rgba(203,209,214,.38);box-shadow:0 8px 28px rgba(20,24,28,.20),inset 0 1px 0 rgba(255,255,255,.08);display:flex;align-items:center;gap:2px;transition:min-width .32s cubic-bezier(.16,1,.3,1),height .32s cubic-bezier(.16,1,.3,1),padding .32s cubic-bezier(.16,1,.3,1),border-color .32s ease,box-shadow .32s ease,transform .18s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow:hidden;will-change:min-width,height,transform;transform:translateZ(0)}.dynamic-island.is-expanded{min-width:344px;height:48px;padding:0 7px;border-color:rgba(220,224,228,.65);box-shadow:0 12px 38px rgba(20,24,28,.25),inset 0 1px 0 rgba(255,255,255,.12)}.dynamic-island.is-pressed{transform:translateZ(0) scale(.985)}.island-arrow{width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:#aeb5bb;cursor:pointer;font-size:21px;display:flex;align-items:center;justify-content:center;transition:background .15s ease,color .15s ease,transform .15s cubic-bezier(.34,1.56,.64,1);flex-shrink:0}.island-arrow:hover{background:#ffffff12;color:#fff;transform:scale(1.1)}.island-arrow:active{transform:scale(.92)}.island-current{position:relative;min-width:104px;height:34px;border:0;border-radius:999px;background:transparent;color:#f5f6f7;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font:600 11px 'Plus Jakarta Sans',system-ui,sans-serif;white-space:nowrap;flex:1;overflow:hidden;transition:background .15s ease}.island-current:hover{background:#ffffff0a}.island-focus{display:inline-flex;align-items:center;gap:7px;color:#fff;transition:transform .22s cubic-bezier(.16,1,.3,1)}.island-dot{width:6px;height:6px;border-radius:50%;background:#d9dde0;box-shadow:0 0 0 3px #ffffff0d,0 0 10px #fff8;transition:box-shadow .3s ease}.island-neighbor{font-size:9px;color:#7f898f;max-width:76px;overflow:hidden;text-overflow:ellipsis;opacity:.85;transition:opacity .22s ease,transform .22s ease}.dynamic-island:not(.is-expanded) .island-neighbor{display:none}.island-chevron{font-size:11px;color:#7f898f;transition:transform .22s cubic-bezier(.34,1.56,.64,1)}.island-chevron.up{transform:rotate(180deg)}.island-dismiss{position:fixed;inset:0;z-index:299}.island-menu{position:absolute;top:calc(100% + 10px);left:50%;width:210px;padding:7px;border-radius:18px;background:rgba(20,24,29,.97);border:1px solid #cfd4d844;box-shadow:0 18px 50px #14181d44;z-index:310;backdrop-filter:blur(18px);opacity:0;animation:islandMenuIn .26s cubic-bezier(.16,1,.3,1) forwards}.island-menu-item{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:0;border-radius:11px;background:transparent;color:#aeb5bb;font:600 11px 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;text-align:left;transition:background .12s ease,color .12s ease,transform .12s ease}.island-menu-item:hover{background:#ffffff0b;color:#fff;transform:translateX(2px)}.island-menu-item.active{background:#ffffff12;color:#fff}.island-check{color:#dfe3e6}
+/* ── Logo hover dropdown (Calendar / Tasks / Meetings / Contacts) ─────── */
+.logo-menu-anchor{position:relative;display:inline-flex;isolation:isolate}
+.logo-menu-anchor img{transition:transform .22s cubic-bezier(.34,1.56,.64,1),filter .22s ease}
+.logo-menu-anchor:hover img,.logo-menu-anchor.is-open img{transform:scale(1.045)}
+.logo-menu-caret{position:absolute;right:-13px;bottom:2px;font-size:9px;color:#aeb5bb;transition:transform .22s cubic-bezier(.16,1,.3,1),color .22s ease;pointer-events:none}
+.logo-menu-anchor:hover .logo-menu-caret,.logo-menu-anchor.is-open .logo-menu-caret{transform:translateY(1px) rotate(180deg);color:#fff}
+.logo-menu-bridge{position:absolute;top:100%;left:0;right:-40px;height:14px}
+.logo-menu{position:absolute;top:calc(100% + 12px);left:0;width:200px;padding:7px;border-radius:16px;background:rgba(18,22,27,.97);border:1px solid rgba(203,209,214,.32);box-shadow:0 20px 54px rgba(15,18,22,.32),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:320;opacity:0;animation:logoMenuIn .22s cubic-bezier(.16,1,.3,1) forwards;will-change:transform,opacity}
+.logo-menu-item{width:100%;display:flex;align-items:center;gap:9px;padding:9px 11px;border:0;border-radius:11px;background:transparent;color:#cdd3d8;font:600 12px 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;text-align:left;transition:background .12s ease,color .12s ease,transform .12s ease}
+.logo-menu-item:hover{background:#ffffff10;color:#fff;transform:translateX(2px)}
+.logo-menu-item.active{background:#ffffff16;color:#fff}
+.logo-menu-item .lmi-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.logo-menu-dismiss{position:fixed;inset:0;z-index:315}
+.checklist-v1{position:relative}.checklist-v1 .checklist-sidebar{background:linear-gradient(180deg,#fff,#f7f8f9)!important;border:1px solid #d7dce0!important;border-radius:18px!important;box-shadow:0 12px 35px rgba(32,38,44,.08)!important;overflow:hidden}.checklist-v1 .checklist-sidebar .sbHdr{background:linear-gradient(180deg,#f9fafb,#eef0f2)!important;border-bottom:1px solid #dfe3e6!important;padding:15px 16px!important}.checklist-v1 .checklist-sidebar .sbTit{color:#687177!important;letter-spacing:1.4px!important}.checklist-v1 .checklist-sidebar input{background:#fff!important;border:1px solid #d5dade!important;border-radius:12px!important;box-shadow:inset 0 1px 2px #00000008!important}.checklist-v1 .checklist-sidebar button{border-radius:13px!important;margin:3px 8px!important;width:calc(100% - 16px)!important;border:1px solid transparent!important;transition:transform .18s ease,box-shadow .18s ease,background .18s ease!important}.checklist-v1 .checklist-sidebar button:hover{transform:translateX(3px)!important;background:#f0f2f4!important;box-shadow:0 6px 18px #69707812!important}.checklist-v1 .checklist-workspace{min-width:0}.checklist-v1 .checklist-account-panel,.checklist-v1 .checklist-workflow-panel,.checklist-v1 .checklist-empty-panel{background:rgba(255,255,255,.96)!important;border:1px solid #d7dce0!important;border-radius:18px!important;box-shadow:0 12px 35px rgba(32,38,44,.07)!important;overflow:hidden}.checklist-v1 .checklist-account-panel{position:relative}.checklist-v1 .checklist-account-panel:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#aeb4b9,#eef0f2,#8f969c);opacity:.9}.checklist-v1 .checklist-workflow-panel .pH{background:linear-gradient(180deg,#fafbfc,#f0f2f4)!important;border-bottom:1px solid #dfe3e6!important;padding:14px 16px!important}.checklist-v1 .checklist-workflow-panel .cTitle{letter-spacing:.2px;color:#30383e!important}.checklist-v1 .checklist-workflow-panel input,.checklist-v1 .checklist-workflow-panel textarea,.checklist-v1 .checklist-workflow-panel select{border-color:#d6dadd!important;background:#fbfcfd!important;border-radius:10px!important}.checklist-v1 .checklist-workflow-panel [role="checkbox"]{transition:background .15s ease,transform .15s ease!important}.checklist-v1 .checklist-workflow-panel [role="checkbox"]:hover{background:#f1f3f5!important}.checklist-v1 .checklist-account-panel .ic{background:linear-gradient(145deg,#fbfcfd,#f0f2f4)!important;border:1px solid #d9dde0!important;border-radius:14px!important;box-shadow:inset 0 1px 0 #fff,0 5px 15px #6970780d!important}.checklist-v1 .checklist-account-panel .iL{color:#7a8288!important}.checklist-v1 .checklist-account-panel .iV{color:#30383e!important}.checklist-v1 .checklist-account-panel button{border-radius:10px!important}
+@media(max-width:900px){.checklist-v1{grid-template-columns:1fr!important}.checklist-v1 .checklist-sidebar{max-height:330px}.dynamic-island.is-expanded{min-width:300px}.dynamic-island-wrap{min-width:124px!important}}@media(prefers-reduced-motion:reduce){.dynamic-island,.dynamic-island-wrap,.island-arrow,.island-current,.checklist-v1 *{transition:none!important;animation:none!important}}
+#clonkr-pwa-splash{position:fixed;inset:0;z-index:99999;background:#0a0f18;opacity:1;visibility:visible;transition:opacity .38s ease,visibility .38s ease;}#clonkr-pwa-splash.is-hidden{opacity:0;visibility:hidden;pointer-events:none;}#clonkr-pwa-splash-frame{display:block;width:100%;height:100%;border:0;background:#0a0f18;}html,body,#root{min-height:100%;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}@supports(padding:max(0px)){body{padding-bottom:max(0px,env(safe-area-inset-bottom));}}
+@media(max-width:768px){body{background:#f0f4f8;overflow-x:hidden;} .clonkr-topbar{height:auto!important;min-height:64px!important;padding:8px 10px!important;gap:8px;align-items:center!important;flex-wrap:wrap;} .clonkr-topbar .logo-menu-anchor img{height:30px!important;max-width:170px!important;} .clonkr-topbar .dynamic-island-wrap{order:3;width:100%;display:flex;justify-content:center;margin-top:2px;} .clonkr-topbar>div:last-child{margin-left:auto;max-width:100%;overflow-x:auto;scrollbar-width:none;} .clonkr-topbar>div:last-child::-webkit-scrollbar{display:none;} .clonkr-topbar>div:last-child>span{display:none!important;} .clonkr-topbar .vinyl-field{display:none;} #root>div{min-width:0!important;} #root input,#root select,#root textarea{max-width:100%;} button{touch-action:manipulation;} .checklist-v1{grid-template-columns:1fr!important;} .checklist-v1 .checklist-sidebar{max-height:none!important;} [style*="grid-template-columns:270px 1fr"]{grid-template-columns:1fr!important;} [style*="grid-template-columns:280px 1fr"]{grid-template-columns:1fr!important;} [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:repeat(2,minmax(0,1fr))!important;} [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important;} [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;} [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;} .mBox{max-width:calc(100vw - 20px)!important;width:calc(100vw - 20px)!important;max-height:88vh!important;padding:18px!important;} .island-menu{width:min(250px,calc(100vw - 20px));left:50%;} .dynamic-island.is-expanded{min-width:min(344px,calc(100vw - 28px));max-width:calc(100vw - 28px);} .clonkr-mobile-hide{display:none!important;} } @media(min-width:769px){#clonkr-pwa-splash{display:none;}}
+</style>
+</head>
+<body>
+<div id="clonkr-pwa-splash" aria-label="ClonKR loading"><iframe id="clonkr-pwa-splash-frame" src="/ClonKrIphone/ClonKR_Animated_Splash_Final.html" title="ClonKR startup"></iframe></div>
+<div id="root"></div>
+
+<script src="/ClonKrIPhone/clonkr-app.js" defer></script>
+
+</body>
+</html>
+
+<script>window.addEventListener("load",()=>{if("serviceWorker" in navigator)navigator.serviceWorker.register("/ClonKrIPhone/sw.js",{scope:"/ClonKrIPhone/"}).catch(e=>console.warn("ClonKR SW",e));});</script>
+</body>
+</html>
